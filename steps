@@ -1,0 +1,21 @@
+start kafka infrastructure and application
+    docker-compose up -d
+
+dump from cosmosdb
+    mongodump --db sample_mflix "mongodb://smartek:p3o3LddLMG5Fvb0l60nYq6dVEelxNRK6B4GqRsfRaGd7i66w3TPgb5QR4HGo6vyxRX6ELlgOzwa5wGfxEkUgSQ==@smartek.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@smartek@"
+     mongodump  "mongodb://smartek:p3o3LddLMG5Fvb0l60nYq6dVEelxNRK6B4GqRsfRaGd7i66w3TPgb5QR4HGo6vyxRX6ELlgOzwa5wGfxEkUgSQ==@smartek.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@smartek@"
+
+restore to mongodb
+   mongorestore "mongodb+srv://migration.1lspv.mongodb.net" --username admin --password=admin1243
+
+start mongodb-sink connector
+    curl -X POST localhost:8083/connectors --header "Content-Type: application/json" --header  "Accept: application/json"  --data '@/home/houssem/Documents/MongoDB/Projects/Cosmos-to-Mongo_Migration/cosmosMigrator/mongo-sink-connector.json'
+
+stop applications running on CosmosDB
+
+wait until data tranferred from kafka to mongodb
+stop connector
+curl -X DELETE localhost:8083/connectors/mongo-sink-connector
+
+stop kafka infrastructure and application
+docker-compose down

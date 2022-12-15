@@ -1,0 +1,16 @@
+{
+  "name": "mongo-sink-connector",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "topics.regex": ".*\\..*",
+    "connection.uri": "mongodb+srv://dorra:dorra@cluster0.4ahqfly.mongodb.net/?retryWrites=true&w=majority",
+    "database": "test",
+    "namespace.mapper": "com.mongodb.kafka.connect.sink.namespace.mapping.FieldPathNamespaceMapper",
+    "namespace.mapper.key.database.field": "db",
+    "namespace.mapper.key.collection.field": "coll",
+    "namespace.mapper.error.if.invalid": "true",
+    "bulk.write.ordered": "true"
+  }
+}
