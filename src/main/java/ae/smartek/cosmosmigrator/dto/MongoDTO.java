@@ -14,6 +14,7 @@ import static com.mongodb.client.model.Projections.include;
 import com.mongodb.client.model.changestream.FullDocument;
 import java.util.Arrays;
 import java.util.List;
+import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
@@ -32,12 +33,24 @@ public class MongoDTO {
     }
 
     public ChangeStreamIterable<Document> createChangeStreamOnColl(String db, String coll) {
+        // MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch().cursor().getResumeToken()
         List<Bson> pipeline = Arrays.asList(
                 Aggregates.match(
                         Filters.in("operationType",
                                 Arrays.asList("insert", "update", "replace"))),
                 Aggregates.project(fields(include("_id", "ns", "documentKey", "fullDocument"))));
-        return MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP);
+                return MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP);
+    }
+    
+     public ChangeStreamIterable<Document> createChangeStreamOnCollWithToken(String db, String coll, String token) {
+        BsonDocument documentToken = BsonDocument.parse(token);
+        List<Bson> pipeline = Arrays.asList(
+                Aggregates.match(
+                        Filters.in("operationType",
+                                Arrays.asList("insert", "update", "replace"))),
+                Aggregates.project(fields(include("_id", "ns", "documentKey", "fullDocument"))));
+                return MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll)
+                        .watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP).resumeAfter(documentToken);
     }
 
 }
