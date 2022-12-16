@@ -21,7 +21,7 @@ public class MongoConfig {
         if (MONGOCLIENT == null) {
             String mongo_uri = System.getenv("MONGODB_URI");
             if ((mongo_uri == null) || (mongo_uri.equals(""))) {
-                mongo_uri = "mongodb://smartek:p3o3LddLMG5Fvb0l60nYq6dVEelxNRK6B4GqRsfRaGd7i66w3TPgb5QR4HGo6vyxRX6ELlgOzwa5wGfxEkUgSQ==@smartek.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000";
+                mongo_uri = "mongodb://cosmosformongo:2TeAu8s1vUcXOP8qxhS1xNYW1xWb1JV20BXeYsR5cu0XYLA1cYtgfWMtWuZhe8Y4h57hYwEIQNlKACDbGstqjQ==@cosmosformongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmosformongo@";
             }
             ConnectionString connString = new ConnectionString(mongo_uri);
             MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).build();
