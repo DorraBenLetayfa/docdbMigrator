@@ -5,7 +5,7 @@
     "key.converter": "org.apache.kafka.connect.storage.StringConverter",
     "value.converter": "org.apache.kafka.connect.storage.StringConverter",
     "topics.regex": ".*\\..*",
-    "connection.uri": "mongodb+srv://dorra:dorra@cluster0.4ahqfly.mongodb.net/?retryWrites=true&w=majority",
+    "connection.uri": "mongodb+srv://dorra:dorra@migration.c4gkmfs.mongodb.net/?retryWrites=true&w=majority",
     "database": "test",
     "namespace.mapper": "com.mongodb.kafka.connect.sink.namespace.mapping.FieldPathNamespaceMapper",
     "namespace.mapper.key.database.field": "db",

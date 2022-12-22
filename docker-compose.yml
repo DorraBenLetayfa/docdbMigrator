@@ -137,7 +137,7 @@ services:
     networks:
       - localnet
     volumes:
-      - ./tokens:/tmp/cosmosMigrator
+      - /tmp/cosmosMigrator:/tmp/cosmosMigrator
     environment:
       MONGODB_URI: 'mongodb://cosmosformongo:2TeAu8s1vUcXOP8qxhS1xNYW1xWb1JV20BXeYsR5cu0XYLA1cYtgfWMtWuZhe8Y4h57hYwEIQNlKACDbGstqjQ==@cosmosformongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmosformongo@'
       BOOTSTRAP_URI: 'broker:29092'
