@@ -33,7 +33,7 @@ public class MongoDTO {
     }
 
     public ChangeStreamIterable<Document> createChangeStreamOnColl(String db, String coll) {
-        // MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch().cursor().getResumeToken()
+        
         List<Bson> pipeline = Arrays.asList(
                 Aggregates.match(
                         Filters.in("operationType",
@@ -49,9 +49,10 @@ BsonDocument documentToken = BsonDocument.parse(token);
                         Filters.in("operationType",
                                 Arrays.asList("insert", "update", "replace"))),
                 Aggregates.project(fields(include("_id", "ns", "documentKey", "fullDocument"))));
-       //  BsonDocument documentToken = BsonDocument.parse(token);       
-        return MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll)
+ChangeStreamIterable<Document> res = MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll)
                         .watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP).resumeAfter(documentToken);
+       //  MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch().cursor().close();
+        return res;   
     }
 
 }

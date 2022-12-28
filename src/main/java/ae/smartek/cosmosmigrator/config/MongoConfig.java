@@ -21,16 +21,19 @@ public class MongoConfig {
         if (MONGOCLIENT == null) {
             String mongo_uri = System.getenv("MONGODB_URI");
             if ((mongo_uri == null) || (mongo_uri.equals(""))) {
-                mongo_uri = "mongodb://cosmosformongo:2TeAu8s1vUcXOP8qxhS1xNYW1xWb1JV20BXeYsR5cu0XYLA1cYtgfWMtWuZhe8Y4h57hYwEIQNlKACDbGstqjQ==@cosmosformongo.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@cosmosformongo@";
+                mongo_uri = "mongodb://dorra:dorra123@docdb-2022-12-21-18-59-02.cluster-c2jdrdp7aouo.eu-west-1.docdb.amazonaws.com:27017/?"
+                        + "ssl=true&ssl_ca_certs=rds-combined-ca-bundle.pem&replicaSet=rs0"
+                        + "&retryWrites=false";         
             }
             ConnectionString connString = new ConnectionString(mongo_uri);
             MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(connString).build();
 
             MONGOCLIENT = MongoClients.create(settings);
         }
-
+ 
         return MONGOCLIENT;
     }
 
 }
-
+ 
+ 

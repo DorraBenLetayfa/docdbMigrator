@@ -47,66 +47,54 @@ public class MigrationThread extends Thread {
         File tokenFile = new File(filePath);
         boolean exists = tokenFile.exists();
         if (exists) {
-            System.out.println("file exist");
             //read token from file 
             BufferedReader br;
             String token = null;
             try {
                 br = new BufferedReader(new FileReader(tokenFile));
                 token = br.readLine();
-                System.out.println("this is the old token:" + token);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MigrationThread.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(MigrationThread.class.getName()).log(Level.SEVERE, null, ex);
             }
-            // call createChangeStreamOnCollWithToken  
+           
             mdto.createChangeStreamOnCollWithToken(this.databse, this.collection, token).forEach((doc) -> {
-                // add the token in the file here
                 String newToken = doc.getResumeToken().toString();
-                System.out.println("this is the new token:" + newToken);
                 PrintWriter prw;
                 try {
-                    System.out.println("write new token");
+                    
                     prw = new PrintWriter(filePath);
                     prw.println(newToken);
                     prw.close();
-                    System.out.println("token updated");
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MigrationThread.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
                 if (this.isKafkaRunning == false) {
+			
                     System.out.println("namespace: " + this.databse + "." + this.collection + "\n" + "Doc: " + doc.getFullDocument());
                 } else {
-
+                     
                     String docId = doc.getDocumentKey().getObjectId("_id").getValue().toHexString();
                     System.out.println("namespace: " + this.databse + "." + this.collection + "  " + "DocId: " + docId);
-                    kdto.sendDocument(this.databse.concat(".").concat(this.collection), doc.getNamespaceDocument().toJson(), doc.getFullDocument().toJson());
+                    System.out.println("token is: " + newToken);
+
+		   kdto.sendDocument(this.databse.concat(".").concat(this.collection), doc.getNamespaceDocument().toJson(), doc.getFullDocument().toJson());
                 }
             });
         } else {
-            System.out.println("in else");
-            //call createChangeStreamOnColl
             mdto.createChangeStreamOnColl(this.databse, this.collection).forEach((doc) -> {
                 File file = new File("/tmp/cosmosMigrator/"+this.databse + "." + this.collection + ".txt"); 
-//add the token in the file here
               String newToken = doc.getResumeToken().toString();
-                System.out.println("new token in else is " + newToken);
                 PrintWriter prw;
-                try {
-                    System.out.println("create new file");
-                   
-                   // boolean created = file.createNewFile();
-                    //if (created) {
-                        System.out.println("file created");
+                try {                                                                                                
                         FileOutputStream outputStream = new FileOutputStream(filePath);
                         byte[] strToBytes = newToken.getBytes();
                         outputStream.write(strToBytes);
                         outputStream.close();
-                    //} else {
-                   //     System.out.println("file is not created");
-                    //}
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MigrationThread.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -118,7 +106,8 @@ public class MigrationThread extends Thread {
 
                     String docId = doc.getDocumentKey().getObjectId("_id").getValue().toHexString();
                     System.out.println("namespace: " + this.databse + "." + this.collection + "  " + "DocId: " + docId);
-                    kdto.sendDocument(this.databse.concat(".").concat(this.collection), doc.getNamespaceDocument().toJson(), doc.getFullDocument().toJson());
+                    System.out.println("token is: " + newToken);
+		    kdto.sendDocument(this.databse.concat(".").concat(this.collection), doc.getNamespaceDocument().toJson(), doc.getFullDocument().toJson());
                 }
             });
 

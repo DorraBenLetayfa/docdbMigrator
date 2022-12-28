@@ -32,6 +32,7 @@ public class KafkaConfig {
             props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
             PRODUCER = new KafkaProducer<>(props);
+	    System.out.println("producer created");
         }
         return PRODUCER;
     }
