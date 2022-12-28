@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ae.smartek.cosmosmigrator.service;
+package ae.smartek.docdbmigrator.service;
 
-import ae.smartek.cosmosmigrator.dto.MongoDTO;
-import ae.smartek.cosmosmigrator.dto.kafkaDTO;
+import ae.smartek.docdbmigrator.dto.DocdbDTO;
+import ae.smartek.docdbmigrator.dto.kafkaDTO;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,10 +39,10 @@ public class MigrationThread extends Thread {
     }
 
     public void run() {
-        MongoDTO mdto = new MongoDTO();
+        DocdbDTO mdto = new DocdbDTO();
         kafkaDTO kdto = new kafkaDTO();
         //String filePath = "/home/houssem/cosmos/tokens/" + this.databse + "." + this.collection + ".txt";
-        String filePath = "/tmp/cosmosMigrator/"+this.databse + "." + this.collection + ".txt";
+        String filePath = "/tmp/docdbMigrator/"+this.databse + "." + this.collection + ".txt";
         //check if the file exists or not
         File tokenFile = new File(filePath);
         boolean exists = tokenFile.exists();
@@ -86,7 +86,7 @@ public class MigrationThread extends Thread {
             });
         } else {
             mdto.createChangeStreamOnColl(this.databse, this.collection).forEach((doc) -> {
-                File file = new File("/tmp/cosmosMigrator/"+this.databse + "." + this.collection + ".txt"); 
+                File file = new File("/tmp/docdbMigrator/"+this.databse + "." + this.collection + ".txt"); 
               String newToken = doc.getResumeToken().toString();
                 PrintWriter prw;
                 try {                                                                                                

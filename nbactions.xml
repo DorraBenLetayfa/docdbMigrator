@@ -16,8 +16,8 @@
                 <exec.mainClass>${packageClassName}</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <Env.MONGODB_URI>mongodb://smartek:p3o3LddLMG5Fvb0l60nYq6dVEelxNRK6B4GqRsfRaGd7i66w3TPgb5QR4HGo6vyxRX6ELlgOzwa5wGfxEkUgSQ==@smartek.mongo.cosmos.azure.com:10255/?ssl=true&amp;replicaSet=globaldb&amp;retrywrites=false&amp;maxIdleTimeMS=120000</Env.MONGODB_URI>
-                <Env.MONGODB_DATABSES>sample_mflix, sample_airbnb</Env.MONGODB_DATABSES>
+                <Env.DOCDB_URI>mongodb://smartek:p3o3LddLMG5Fvb0l60nYq6dVEelxNRK6B4GqRsfRaGd7i66w3TPgb5QR4HGo6vyxRX6ELlgOzwa5wGfxEkUgSQ==@smartek.mongo.cosmos.azure.com:10255/?ssl=true&amp;replicaSet=globaldb&amp;retrywrites=false&amp;maxIdleTimeMS=120000</Env.DOCDB_URI>
+                <Env.DOCDB_DATABSES>sample_mflix, sample_airbnb</Env.DOCDB_DATABSES>
                 <!--<Env.MONGODB_NAMESPACES>sample_training.trips,sample_training.test</Env.MONGODB_NAMESPACES>-->
                 <Env.BOOTSTRAP_URI>localhost:9092</Env.BOOTSTRAP_URI>
                 

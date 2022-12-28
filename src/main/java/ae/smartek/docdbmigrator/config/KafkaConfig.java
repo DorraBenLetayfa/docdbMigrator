@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ae.smartek.cosmosmigrator.config;
+package ae.smartek.docdbmigrator.config;
 
 import java.util.Properties;
 import org.apache.kafka.clients.producer.KafkaProducer;

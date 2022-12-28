@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ae.smartek.cosmosmigrator.dto;
+package ae.smartek.docdbmigrator.dto;
 
-import ae.smartek.cosmosmigrator.config.MongoConfig;
+import ae.smartek.docdbmigrator.config.DocdbConfig;
 import com.mongodb.client.ChangeStreamIterable;
 import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Aggregates;
@@ -22,14 +22,14 @@ import org.bson.conversions.Bson;
  *
  * @author houssem
  */
-public class MongoDTO {
+public class DocdbDTO {
 
     public MongoIterable<String> getAllDatabases() {
-        return MongoConfig.getMongoClientInstance().listDatabaseNames();
+        return DocdbConfig.getMongoClientInstance().listDatabaseNames();
     }
 
     public MongoIterable<String> getAllCollectionsInDB(String db) {
-        return MongoConfig.getMongoClientInstance().getDatabase(db).listCollectionNames();
+        return DocdbConfig.getMongoClientInstance().getDatabase(db).listCollectionNames();
     }
 
     public ChangeStreamIterable<Document> createChangeStreamOnColl(String db, String coll) {
@@ -39,7 +39,7 @@ public class MongoDTO {
                         Filters.in("operationType",
                                 Arrays.asList("insert", "update", "replace"))),
                 Aggregates.project(fields(include("_id", "ns", "documentKey", "fullDocument"))));
-                return MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP);
+                return DocdbConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP);
     }
     
      public ChangeStreamIterable<Document> createChangeStreamOnCollWithToken(String db, String coll, String token) {
@@ -49,9 +49,9 @@ BsonDocument documentToken = BsonDocument.parse(token);
                         Filters.in("operationType",
                                 Arrays.asList("insert", "update", "replace"))),
                 Aggregates.project(fields(include("_id", "ns", "documentKey", "fullDocument"))));
-ChangeStreamIterable<Document> res = MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll)
+ChangeStreamIterable<Document> res = DocdbConfig.getMongoClientInstance().getDatabase(db).getCollection(coll)
                         .watch(pipeline).fullDocument(FullDocument.UPDATE_LOOKUP).resumeAfter(documentToken);
-       //  MongoConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch().cursor().close();
+       //  DocdbConfig.getMongoClientInstance().getDatabase(db).getCollection(coll).watch().cursor().close();
         return res;   
     }
 

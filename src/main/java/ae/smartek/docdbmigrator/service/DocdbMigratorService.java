@@ -2,21 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ae.smartek.cosmosmigrator.service;
+package ae.smartek.docdbmigrator.service;
 
-import ae.smartek.cosmosmigrator.dto.MongoDTO;
+import ae.smartek.docdbmigrator.dto.DocdbDTO;
 
 /**
  *
  * @author houssem
  */
-public class CosmosMigratorService {
+public class DocdbMigratorService {
 
     public static void startMigration() {
 
-        String databases = System.getenv("MONGODB_DATABSES");
+        String databases = System.getenv("DOCDB_DATABSES");
 //        String collection = System.getenv("MONGODB_COLLECTIONS");
-        String namespaces = System.getenv("MONGODB_NAMESPACES");
+        String namespaces = System.getenv("DOCDB_NAMESPACES");
 
         if ((namespaces != null) && (!namespaces.equals(""))) {
             String[] tab = namespaces.split(",");
@@ -25,7 +25,7 @@ public class CosmosMigratorService {
                     migrateSpecificNamespace(ns.trim());
                 }
             }else{
-                System.out.println("MONGODB_NAMESPACES entry is not valid. MONGODB_NAMESPACES should contain the namespaces (database.collection) to be migrated seperated by , ");
+                System.out.println("DOCDB_NAMESPACES entry is not valid. DOCDB_NAMESPACES should contain the namespaces (database.collection) to be migrated seperated by , ");
             }
         } else if ((databases != null) && (!databases.equals(""))) {
             String[] tab = databases.split(",");
@@ -35,7 +35,7 @@ public class CosmosMigratorService {
                 }
 
             } else {
-                System.out.println("MONGODB_DATABSES entry is not valid. MONGODB_DATABSES should contain the databses names  to be migrated seperated by , ");
+                System.out.println("DOCDB_DATABSES entry is not valid. DOCDB_DATABSES should contain the databses names  to be migrated seperated by , ");
             }
 
         } else {
@@ -50,7 +50,7 @@ public class CosmosMigratorService {
     }
 
     private static void migrateSpecificDatabase(String db) {
-        MongoDTO mdto = new MongoDTO();
+        DocdbDTO mdto = new DocdbDTO();
         mdto.getAllCollectionsInDB(db).forEach((c) -> {
             migrateSpecificCollection(db, c);
         });
@@ -58,7 +58,7 @@ public class CosmosMigratorService {
     }
 
     private static void migrateCluster() {
-        MongoDTO mdto = new MongoDTO();
+        DocdbDTO mdto = new DocdbDTO();
         mdto.getAllDatabases().forEach((db) -> {
             migrateSpecificDatabase(db);
         });
